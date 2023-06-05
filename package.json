@@ -1,11 +1,20 @@
 {
-  "name": "instock-server",
+  "name": "instock_with_dbs-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db:migrate": "knex migrate:latest",
+    "db:seed": "knex seed:run"
   },
-  "author": "Jesse Uszkay, Ajay Singh, Jonathan Mak, Shaymaa Abdou",
-  "license": "ISC"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "knex": "^2.3.0",
+    "mysql": "^2.18.1"
+  }
 }
