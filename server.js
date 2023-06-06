@@ -17,7 +17,7 @@ app.use("/warehouse", warehouseRoutes);
 const knex = require("knex")(require("./knexfile"));
 
 // LISTENER
-app.listen(PORT, () => {
+app.listen(8080, () => {
   console.log("Listening on 8080");
 });
 
