@@ -14,4 +14,18 @@ router.get("/", (req, res) => {
     });
 });
 
+router.delete("/:id", (req, res) => {
+  knex("warehouses")
+    .where({ id: req.params.id })
+    .del()
+    .then((data) => {
+      res.status(204).json(data);
+    })
+    .catch((err) => {
+      res.status(404).send("Error deleting warehouse");
+    });
+});
+
+
+
 module.exports = router;
