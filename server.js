@@ -8,11 +8,11 @@ app.use(cors({ origin: process.env.CORS_ORIGIN }));
 
 app.use(express.json());
 
-const inventoryRoutes = require("./routes/inventory");
-app.use("/inventory", inventoryRoutes);
+// const inventoryRoutes = require("./routes/inventory");
+// app.use("/inventory", inventoryRoutes);
 
-const warehouseRoutes = require("./routes/warehouse");
-app.use("/warehouse", warehouseRoutes);
+// const warehouseRoutes = require("./routes/warehouse");
+// app.use("/warehouse", warehouseRoutes);
 
 const knex = require("knex")(require("./knexfile"));
 
