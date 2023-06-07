@@ -26,20 +26,11 @@ router.put("/:id", (req, res) => {
   knex("inventories")
     .where({ id: req.params.id })
     .update(req.body)
-    .then(() => {
-      return knex("inventories").where({
-        id: req.params.id,
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({
+        message: `Unable to update inventory item with ID: ${req.params.id}`,
       });
-    })
-    .then((updatedItem) => {
-      res.json(updatedItem[0]);
-    })
-    .catch(() => {
-      res
-        .status(500)
-        .json({
-          message: `Unable to update inventory item with ID: ${req.params.id}`,
-        });
     });
 });
 
