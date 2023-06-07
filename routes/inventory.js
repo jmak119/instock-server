@@ -1,8 +1,33 @@
 const router = require("express").Router();
 const knex = require("knex")(require("../knexfile"));
 
+// GET INVENTORY DATA
+router.get("/", (req, res) => {
+  knex
+    .select("*")
+    .from("inventories")
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.status(500).send("Error getting inventories");
+    });
+});
+
 // GET INVENTORY ITEM DATA
 router.get("/:id", (req, res) => {
+  if (!req.body.item_name || !req.body.description) {
+    return res.status(400).json({
+      message: "Please do not leave any fields blank",
+    });
+  }
+
+  if (req.body.quantity === 0 && req.body.status === "In Stock") {
+    return res.status(400).json({
+      message: `If item quantity is 0, set to "Out of Stock"`,
+    });
+  }
+
   knex("inventories")
     .where({ id: req.params.id })
     .then((itemsFound) => {
