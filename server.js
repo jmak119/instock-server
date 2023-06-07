@@ -9,10 +9,10 @@ app.use(cors({ origin: process.env.CORS_ORIGIN }));
 app.use(express.json());
 
 const inventoryRoutes = require("./routes/inventory");
-app.use("/inventory", inventoryRoutes);
+app.use("/api/inventories", inventoryRoutes);
 
-const warehouseRoutes = require("./routes/warehouse");
-app.use("/warehouse", warehouseRoutes);
+/* const warehouseRoutes = require("./routes/warehouse");
+app.use("/api/warehouses", warehouseRoutes); */
 
 const knex = require("knex")(require("./knexfile"));
 
@@ -22,7 +22,7 @@ app.listen(8080, () => {
 });
 
 // GET WAREHOUSE DATA
-app.get("/warehouses", (req, res) => {
+app.get("/api/warehouses", (req, res) => {
   knex
     .select("*")
     .from("warehouses")
