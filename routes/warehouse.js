@@ -14,49 +14,34 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   knex("warehouses")
-    .select("*")
-    .from("warehouses")
     .where({ id: req.params.id })
+    .del()
     .then((data) => {
-      res.status(200).json(data[0]);
+      res.status(204).json(data);
     })
     .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error getting warehouse");
+      res.status(404).send("Error deleting warehouse");
     });
 });
 
-// router.put('/warehouse/edit/:id', (req, res) => {
-//   knex("warehouses")
-//   .update(req.body)
-//     .where({ id: req.params.id })
-//     .then((data) => {
-//       console.log(data);
-//       res.status(200).json(data[0]);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send("Error updating warehouse");
-//     });
-// });
-router.use("/warehouse/edit/:id", (req, res) => {
-  const id = req.params.id;
+router.get("/:id", (req, res) => {
   knex("warehouses")
-    .update(req.body)
-    .where({ id })
-    .first()
-    .then((warehouse) => {
-      if (!warehouse) {
-        res.status(404).send(`Warehouse with ID ${id} not found`);
-      } else {
-        res.status(200).json(warehouse);
+    .where({ id: req.params.id })
+    .then((warehousesFound) => {
+      if (warehousesFound.length === 0) {
+        return res.status(404).json({
+          message: `Warehouse with ID: ${req.params.id} not found`,
+        });
       }
+      const warehouseData = warehousesFound[0];
+      res.status(200).json(warehouseData);
     })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error retrieving warehouse");
+    .catch(() => {
+      res.status(500).json({
+        message: `Unable to retrieve warehouse data for warehouse with ID: ${req.params.id}`,
+      });
     });
 });
 
