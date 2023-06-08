@@ -27,6 +27,7 @@ router.delete("/:id", (req, res) => {
 });
 
 
+<<<<<<< HEAD
 router.get("/:id", (req, res) => {
   knex("warehouses")
     .where({ id: req.params.id })
@@ -45,6 +46,8 @@ router.get("/:id", (req, res) => {
       });
     });
 });
+=======
+>>>>>>> develop
 
 
 module.exports = router;
