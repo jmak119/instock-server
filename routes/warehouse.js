@@ -14,10 +14,6 @@ router.get("/", (req, res) => {
     });
 });
 
-
-
-
-
 router.delete("/:id", (req, res) => {
   knex("warehouses")
     .where({ id: req.params.id })
@@ -29,12 +25,6 @@ router.delete("/:id", (req, res) => {
       res.status(404).send("Error deleting warehouse");
     });
 });
-
-
-
-
-
-
 
 
 router.get("/:id", (req, res) => {
