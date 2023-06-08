@@ -26,7 +26,6 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-
 router.get("/:id", (req, res) => {
   knex("warehouses")
     .where({ id: req.params.id })
