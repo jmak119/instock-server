@@ -14,4 +14,40 @@ router.get("/", (req, res) => {
     });
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.get("/:id", (req, res) => {
+  knex("warehouses")
+    .where({ id: req.params.id })
+    .then((warehousesFound) => {
+      if (warehousesFound.length === 0) {
+        return res.status(404).json({
+          message: `Warehouse with ID: ${req.params.id} not found`,
+        });
+      }
+      const warehouseData = warehousesFound[0];
+      res.status(200).json(warehouseData);
+    })
+    .catch(() => {
+      res.status(500).json({
+        message: `Unable to retrieve warehouse data for warehouse with ID: ${req.params.id}`,
+      });
+    });
+});
+
+
 module.exports = router;
