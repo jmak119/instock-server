@@ -46,6 +46,22 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.put("/:id", (req, res) => {
+  delete req.body.created_at;
+  delete req.body.updated_at;
+  knex("warehouses")
+    .update(req.body)
+    .where({ id: req.params.id })
+    .then((data) => {
+      console.log(data);
+      res.status(200).json(data[0]);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error updating warehouse");
+    });
+});
+
 router.post("/", (req, res) => {
   delete req.body.created_at;
   delete req.body.updated_at;
