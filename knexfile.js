@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 // Update with your config settings.
 
 /**
