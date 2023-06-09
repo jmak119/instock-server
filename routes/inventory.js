@@ -78,4 +78,19 @@ router.put("/:id", (req, res) => {
     });
 });
 
+
+// DELETE INVENTORY ITEM DATA
+router.delete("/:id", (req, res) => {
+  knex("inventories")
+    .where({ id: req.params.id })
+    .del()
+    .then((data) => {
+      res.status(204).json(data);
+    })
+    .catch((err) => {
+      res.status(404).send("Error deleting inventory item");
+    });
+});
+
+
 module.exports = router;
