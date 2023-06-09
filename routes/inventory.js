@@ -53,7 +53,18 @@ router.get("/warehouse/:id", (req, res) => {
     });
 });
 
-
+// Delete Inventory list by warehouse ID
+router.delete("/warehouse/:id", (req, res) => {
+  knex("inventories")
+    .where({ warehouse_id: req.params.id })
+    .del()
+    .then((data) => {
+      res.status(204).json(data);
+    })
+    .catch((err) => {
+      res.status(404).send("Error deleting inventory");
+    });
+});
 
 // PUT/EDIT INVENTORY ITEM DATA
 router.put("/:id", (req, res) => {
