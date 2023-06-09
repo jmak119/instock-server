@@ -53,8 +53,11 @@ router.put("/:id", (req, res) => {
     .update(req.body)
     .where({ id: req.params.id })
     .then((data) => {
-      console.log(data);
-      res.status(200).json(data[0]);
+      if (data === 0) {
+        res.status(404).send(`Warehouse with ID: ${req.params.id} not found`);
+      } else {
+        res.status(200).json(req.body);
+      }
     })
     .catch((err) => {
       console.error(err);
@@ -66,14 +69,45 @@ router.post("/", (req, res) => {
   delete req.body.created_at;
   delete req.body.updated_at;
 
+  if (
+    req.body.warehouse_name === "" ||
+    req.body.address === "" ||
+    req.body.city === "" ||
+    req.body.country === "" ||
+    req.body.contact_name === "" ||
+    req.body.contact_position === "" ||
+    req.body.contact_phone === "" ||
+    req.body.contact_email === ""
+  ) {
+    return res.status(400).json({
+      message: "Please do not leave any fields blank",
+    });
+  }
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phonePattern = /^\d{10}$/;
+
+  console.log(!emailPattern.test(req.body.contact_email));
+  console.log(req.body.contact_email);
+  console.log(!phonePattern.test(req.body.contact_phone));
+  console.log(req.body.contact_phone);
+
+  if (
+    !emailPattern.test(req.body.contact_email) ||
+    !phonePattern.test(req.body.contact_phone)
+  ) {
+    return res.status(400).json({
+      message: "Invalid email address or phone number",
+    });
+  }
+
   knex("warehouses")
     .insert(req.body)
     .then(([id]) => knex("warehouses").select("*").where({ id }))
     .then(([data]) => {
-      res.status(200).json(data);
+      res.status(201).json(data);
     })
     .catch((err) => {
-      console.error(err);
       res.status(500).send("Error adding warehouse");
     });
 });

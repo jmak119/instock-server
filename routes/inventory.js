@@ -95,7 +95,7 @@ router.put("/:id", (req, res) => {
           message: `Inventory item with ID: ${req.params.id} not found`,
         });
       }
-      return res.status(200).json(result);
+      return res.status(200).json(result[0]);
     })
     .catch((err) => {
       console.error(err);
