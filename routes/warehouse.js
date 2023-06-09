@@ -38,10 +38,27 @@ router.get("/:id", (req, res) => {
       const warehouseData = warehousesFound[0];
       res.status(200).json(warehouseData);
     })
-    .catch(() => {
+    .catch((error) => {
+      console.log(error);
       res.status(500).json({
         message: `Unable to retrieve warehouse data for warehouse with ID: ${req.params.id}`,
       });
+    });
+});
+
+router.put("/:id", (req, res) => {
+  delete req.body.created_at;
+  delete req.body.updated_at;
+  knex("warehouses")
+    .update(req.body)
+    .where({ id: req.params.id })
+    .then((data) => {
+      console.log(data);
+      res.status(200).json(data[0]);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error updating warehouse");
     });
 });
 
